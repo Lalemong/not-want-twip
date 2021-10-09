@@ -81,6 +81,8 @@ $popup.addEventListener("mousedown", e => {
 $popup.addEventListener("mouseup", e => {
   if(e.target === $popup && closePopup) {
     $popup.classList.add("none");
+    $reset.classList.add("none");
+    $game.style.pointerEvents = "";
   }
   closePopup = false;
 });
