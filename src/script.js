@@ -68,6 +68,15 @@ const init = e => {
     if(e.key === "Backspace") skip = skip.slice(0, skip.length - 1);
   })
   
+  $pass.addEventListener("keypress", e => {
+    e.preventDefault();
+    $pass.value = sheet;
+
+    if(e.key.length === 1)skip += e.key.replace(/[^a-z|A-Z]/g, "");
+    if(skip === "Slime") location.replace("https://twip.kr/l_l_mong1122");
+    if(e.key === "Backspace") skip = skip.slice(0, skip.length - 1);
+  })
+  
   $pass.addEventListener("input", e => {
     e.preventDefault();
     $pass.value = sheet;
