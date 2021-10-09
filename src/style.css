@@ -1,0 +1,33 @@
+*{margin: 0; padding: 0;}
+
+body{background: #0e0e10; color: #fff;}
+.none{display: none;}
+
+#warp{position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 40px 60px; border-radius: 10px; background: #1a1a1c; cursor: default;}
+h1{padding-bottom: 40px; white-space: nowrap;}
+
+.btn{cursor: pointer; display: inline-block; background: #9147ff; padding: 5px 8px; border-radius: 5px;}
+.btn:hover{background: #772ce8;}
+.btn.tra{background: #1a1a1c; color: #a970ff;}
+.btn.tra:hover{background: #464649;}
+#yes{margin-left: 5px;}
+
+#popup{position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 500;}
+#popup>div{position: absolute; background: #18181b; left: 50%; top: 50%; transform: translate(-50%, -50%); border: 1px solid #303032; box-shadow: 0 10px 15px #0008; padding: 20px;}
+#pad{display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; padding-bottom: 30px; width: 100%;}
+#pad div{font-size: 20px; display: flex; justify-content: center; align-items: center;}
+#ex{background: #3a3a3d; padding: 10px; user-select: none; margin-bottom: 15px}
+#pass{background: #464649; border: 2px solid #464649; border-radius: 5px; padding: 8px; transition: .2s; outline: none; color: #fff; width: 100%; box-sizing: border-box; margin-top: 15px;}
+#pass:hover{border-color: #5e5e60;}
+#pass:focus{background: #000000; border-color: #a970ff;}
+#game p{color: #a970ff; font-size: 12px; white-space: nowrap;}
+#popup .btn{user-select: none;}
+#popup .btn.use{background: #242427; color: #505052; pointer-events: none;}
+h3{white-space: nowrap;}
+
+#retry{margin-top: 20px;}
+
+@media(max-width: 1200px) {
+  #warp{padding: 20px 30px; max-width: 90%;}
+  h1{font-size: 24px;}
+}
