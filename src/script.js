@@ -156,9 +156,7 @@ function init() {
 
       if(particle.length > max) {
         particle.splice(particle.length - (particle.length - max), particle.length - max);
-        console.log(particle.length)
       }else if(particle.length < max) {
-        console.log(particle.length)
         for(let i = 0; i < max - particle.length; i++) {
           const result = {};
           
@@ -223,8 +221,8 @@ function init() {
         sCtx.fill();
         sCtx.beginPath();
 
-        item.y += (10 - item.size) / 4;
-        item.step += (7 - item.size) / 200;
+        item.y += ((10 - item.size) / 4) / 16 * ms;
+        item.step += ((7 - item.size) / 200) / 16 * ms;
 
         if(item.y + item.size > page.h) {
           item.size = Math.random() * 3 + 2;
