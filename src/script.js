@@ -151,9 +151,29 @@ function init() {
 
       snowBackground.width = page.w;
       snowBackground.height = page.h;
+
+      const max = Math.floor(page.w * page.h / 5000);
+
+      if(particle.length > max) {
+        particle.splice(particle.length - (particle.length - max), particle.length - max);
+        console.log(particle.length)
+      }else if(particle.length < max) {
+        console.log(particle.length)
+        for(let i = 0; i < max - particle.length; i++) {
+          const result = {};
+          
+          result.size = Math.random() * 3 + 2;
+          result.x = Math.random() * (page.w + (result.size * 2));
+          result.y = Math.random() * (page.h + (result.size * 2));
+          result.step = Math.random() * pi * 2;
+          result.alpha = Math.random() * 0.5 + 0.2;
+    
+          particle.push(result);
+        }
+      }
     })
 
-    for(let i = 0; i < 300; i++) {
+    for(let i = 0; i < Math.floor(page.w * page.h / 5000); i++) {
       const result = {};
       
       result.size = Math.random() * 3 + 2;
