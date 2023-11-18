@@ -42,7 +42,7 @@ function init() {
       for(let i = 0; i < 8; i++) {
         let subNumber = sequence.substring(i, i + 3);
 
-        if(mixNumber.includes(subNumber)) includedSequence = true;
+        if(mixedNumber.includes(subNumber)) includedSequence = true;
       }
       
       if(mixedNumber === answer) ;
