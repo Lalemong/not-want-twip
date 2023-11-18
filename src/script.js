@@ -14,22 +14,42 @@ function init() {
   let closePopup = false;
   let skip = "";
   let date = new Date();
+  let sequence = "0123456789";
   
   function gameStart() {
     const btns = $pad.querySelectorAll(".btn");
     btns.forEach(el => el.remove());
     $pass.value = "";
     sheet = "";
+    let mixNumber = true;
     
-    number.sort(function() {
-      return Math.random() - 0.5
-    });
-    answer = number.join("");
-    $ex.innerText = answer;
-  
-    number.sort(function() {
-      return Math.random() - 0.5
-    });
+    while(mixNumber) {
+      number.sort(function() {
+        return Math.random() - 0.5
+      });
+
+      answer = number.join("");
+      $ex.innerText = answer;
+      
+      number.sort(function() {
+        return Math.random() - 0.5
+      });
+
+      let mixedNumber = number.join("");
+
+      let includedSequence = false;
+
+      for(let i = 0; i < 8; i++) {
+        let subNumber = sequence.substring(i, i + 3);
+
+        if(mixNumber.includes(subNumber)) includedSequence = true;
+      }
+      
+      if(mixedNumber === answer) ;
+      else if(includedSequence) ;
+      else mixNumber = false;
+    }
+    
     for(let i = 0; i < 10; i++) {
       const btn = document.createElement("button");
       btn.classList.add("btn");
@@ -47,6 +67,7 @@ function init() {
           }else {
             $reset.classList.remove("none");
             $game.style.pointerEvents = "none";
+            skip = "";
           }
         }
       })
@@ -117,7 +138,7 @@ function init() {
     gameStart();
   })
 
-  if(date.getMonth() === 11 || date.getMonth() === 0) {
+  if(date.getMonth() === 11 || date.getMonth() === 0 || (date.getMonth() === 10 && date.getDate() > 15)) {
     const body = document.querySelector("body");
     const page = {w: window.innerWidth, h: window.innerHeight};
     const particle = [];
