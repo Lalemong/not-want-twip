@@ -1,4 +1,4 @@
-function init() {
+const init = e => {
   const $yes = document.querySelector("#yes");
   const $no = document.querySelector("#no");
   const $popup = document.querySelector("#popup");
@@ -16,7 +16,7 @@ function init() {
   let date = new Date();
   let sequence = "0123456789";
   
-  function gameStart() {
+  const gameStart = e => {
     const btns = $pad.querySelectorAll(".btn");
     btns.forEach(el => el.remove());
     $pass.value = "";
@@ -24,14 +24,14 @@ function init() {
     let mixNumber = true;
     
     while(mixNumber) {
-      number.sort(function() {
+      number.sort(e => {
         return Math.random() - 0.5
       });
 
       answer = number.join("");
       $ex.innerText = answer;
       
-      number.sort(function() {
+      number.sort(e => {
         return Math.random() - 0.5
       });
 
@@ -42,7 +42,12 @@ function init() {
       for(let i = 0; i < 8; i++) {
         let subNumber = sequence.substring(i, i + 3);
 
-        if(mixedNumber.includes(subNumber)) includedSequence = true;
+        if(mixedNumber.includes(subNumber)) {
+          includedSequence = true;
+
+          console.log("reset", mixedNumber);
+          break;
+        }
       }
       
       if(mixedNumber === answer) ;
@@ -55,7 +60,7 @@ function init() {
       btn.classList.add("btn");
       btn.innerText = number[i];
   
-      btn.addEventListener("click", function() {
+      btn.addEventListener("click", e => {
         if(btn.classList.contains("use")) return e.preventDefault();
         sheet += `${number[i]}`;
         $pass.value = sheet;
@@ -76,17 +81,17 @@ function init() {
     }
   }
   
-  $no.addEventListener("click", function() {
+  $no.addEventListener("click", e => {
     window.close();
   })
   
-  $yes.addEventListener("click", function() {
+  $yes.addEventListener("click", e => {
     $popup.classList.remove("none");
   
     gameStart();
   })
   
-  $pass.addEventListener("keydown", function(e) {
+  $pass.addEventListener("keydown", e => {
     e.preventDefault();
     $pass.value = sheet;
 
@@ -95,7 +100,7 @@ function init() {
     if(e.key === "Backspace") skip = skip.slice(0, skip.length - 1);
   })
   
-  $pass.addEventListener("keypress", function(e) {
+  $pass.addEventListener("keypress", e => {
     e.preventDefault();
     $pass.value = sheet;
 
@@ -106,23 +111,23 @@ function init() {
     $ex.innerText = sheet;
   })
   
-  $pass.addEventListener("input", function(e) {
+  $pass.addEventListener("input", e => {
     e.preventDefault();
     $pass.value = sheet;
   })
   
-  $pass.addEventListener("contextmenu", function(e) {
+  $pass.addEventListener("contextmenu", e => {
     e.preventDefault();
     $pass.value = sheet;
   })
   
-  $popup.addEventListener("mousedown", function(e) {
+  $popup.addEventListener("mousedown", e => {
     if(e.target === $popup) {
       closePopup = true;
     }
   });
   
-  $popup.addEventListener("mouseup", function(e) {
+  $popup.addEventListener("mouseup", e => {
     if(e.target === $popup && closePopup) {
       $popup.classList.add("none");
       $reset.classList.add("none");
@@ -131,7 +136,7 @@ function init() {
     closePopup = false;
   });
   
-  $retry.addEventListener("click", function() {
+  $retry.addEventListener("click", e => {
     $reset.classList.add("none");
     $game.style.pointerEvents = "";
   
@@ -145,8 +150,10 @@ function init() {
     const snow = new Image;
     const tree = new Image;
     const pi = Math.PI;
-    let time = new Date().getTime();
+    let prevMs = new Date().getTime();
     let imgLoad = 0;
+    let averageMs = 0;
+    let prevAverageMs = 0;
 
     const snowBackground = document.createElement("canvas");
     const sCtx = snowBackground.getContext("2d");
@@ -158,15 +165,15 @@ function init() {
     snow.src = "src/snow/snow.png";
     tree.src = "src/snow/tree.png";
 
-    snow.onload = function() {
+    snow.onload = e => {
       imgLoad++;
     }
-    tree.onload = function() {
+    tree.onload = e => {
       imgLoad++;
       tree.width = 140;
     }
     
-    window.addEventListener("resize", function() {
+    window.addEventListener("resize", e => {
       page.w = window.innerWidth;
       page.h = window.innerHeight;
 
@@ -204,12 +211,32 @@ function init() {
       particle.push(result);
     }
 
-    function snowAnimation() {
+    const snowAnimation = e => {
       sCtx.clearRect(0, 0, page.w, page.h);
       
       const now = new Date().getTime();
-      const ms = now - time;
-      time = now;
+      const msDefault = now - prevMs;
+      let ms = msDefault;
+      prevMs = now;
+
+      // if(averageMs == 0) 
+
+      if(ms > averageMs) {
+        if(averageMs * 1.5 >= ms) {
+          averageMs = ms;
+        }else {
+          if(prevAverageMs * 1.5 >= ms) {
+            averageMs = ms;
+          }else {
+            ms = Math.floor(averageMs);
+            averageMs = ms;
+          }
+        }
+      }else {
+        averageMs += ms;
+        averageMs = averageMs / 2;
+      }
+      prevAverageMs = msDefault;
 
       sCtx.globalAlpha = 1;
 
