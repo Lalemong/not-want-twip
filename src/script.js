@@ -87,6 +87,7 @@ const init = e => {
       let mixedNumber = number.join("");
 
       let includedSequence = false;
+      let includedMixed = false;
 
       for(let i = 0; i < 8; i++) {
         let subNumber = sequence.substring(i, i + 3);
@@ -97,9 +98,20 @@ const init = e => {
           break;
         }
       }
+
+      for(let i = 0; i < 8; i++) {
+        let subNumber = answer.substring(i, i + 3);
+
+        if(mixedNumber.includes(subNumber)) {
+          includedMixed = true;
+          
+          break;
+        }
+      }
       
       if(mixedNumber === answer) ;
       else if(includedSequence) ;
+      else if(includedMixed) ;
       else mixNumber = false;
     }
 
