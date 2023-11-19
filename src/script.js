@@ -16,7 +16,6 @@ const init = e => {
   let closePopup = false;
   let skip = "";
   let date = new Date();
-  let sequence = "0123456789";
   const randomProfile = Math.random() * 100;
 
   if(randomProfile < 23) $profile.src = "src/profile/" + profiles[0];
@@ -88,26 +87,38 @@ const init = e => {
 
       let includedSequence = false;
       let includedMixed = false;
+      let sequence = "0123456789";
+      let answerCopy = answer;
 
-      for(let i = 0; i < 8; i++) {
-        let subNumber = sequence.substring(i, i + 3);
+      for(let j = 0; j < 2; j++) {
+        for(let i = 0; i < 8; i++) {
+          let subNumber = sequence.substring(i, i + 3);
+  
+          if(mixedNumber.includes(subNumber)) {
+            includedSequence = true;
 
-        if(mixedNumber.includes(subNumber)) {
-          includedSequence = true;
-          
-          break;
+            break;
+          }
         }
+  
+        for(let i = 0; i < 8; i++) {
+          let subNumber = answerCopy.substring(i, i + 3);
+  
+          if(mixedNumber.includes(subNumber)) {
+            includedMixed = true;
+
+            break;
+          }
+        }
+
+        sequence = sequence.split("");
+        answerCopy = answerCopy.split("");
+        sequence.reverse();
+        answerCopy.reverse();
+        sequence = sequence.join("");
+        answerCopy = answerCopy.join("");
       }
 
-      for(let i = 0; i < 8; i++) {
-        let subNumber = answer.substring(i, i + 3);
-
-        if(mixedNumber.includes(subNumber)) {
-          includedMixed = true;
-          
-          break;
-        }
-      }
       
       if(mixedNumber === answer) ;
       else if(includedSequence) ;
