@@ -3,7 +3,7 @@
 body{background: #0e0e10; color: #fff;}
 .none{display: none;}
 
-#warp{position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 40px 60px; border-radius: 10px; background: #1a1a1c; cursor: default; z-index: 50;}
+#warp{position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 40px 60px; border-radius: 10px; background: #1c1c1eeb; cursor: default; z-index: 50;}
 
 h1{padding-bottom: 40px; white-space: nowrap; user-select: none;}
 .btn{cursor: pointer; display: inline-block; background: #9147ff; padding: 5px 8px; border-radius: 5px; outline: none; border: none; color: inherit; font-size: inherit; user-select: none;}
@@ -11,6 +11,8 @@ h1{padding-bottom: 40px; white-space: nowrap; user-select: none;}
 .btn:focus{border: 1px solid #fff; padding: 4px 7px;}
 .btn.tra{background: #1a1a1c; color: #a970ff;}
 .btn.tra:hover{background: #464649;}
+.btn.mix{background: #fd6564;}
+.btn.mix:hover{background: #f65756;}
 #yes{margin-left: 5px;}
 #profile{overflow: hidden; width: 60px; height: 60px; position: absolute; right: 50px; bottom: 30px; user-select: none; pointer-events: none;}
 #profile img{width: 100%; height: 100%; object-fit: cover;}

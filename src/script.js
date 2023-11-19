@@ -8,31 +8,80 @@ const init = e => {
   const $ex = document.querySelector("#ex");
   const $reset = document.querySelector("#reset");
   const $retry = document.querySelector("#retry");
+  const $profile = document.querySelector("#profile>img");
   const number = [0,1,2,3,4,5,6,7,8,9];
+  const profiles = ["profile01.png", "profile02.png", "profile03.png", "profile04.png", "profile99.png"];
   let answer = "";
   let sheet = "";
   let closePopup = false;
   let skip = "";
   let date = new Date();
   let sequence = "0123456789";
+  const randomProfile = Math.random() * 100;
+
+  if(randomProfile < 23) $profile.src = "src/profile/" + profiles[0];
+  else if(randomProfile < 46) $profile.src = "src/profile/" + profiles[1];
+  else if(randomProfile < 69) $profile.src = "src/profile/" + profiles[2];
+  else if(randomProfile < 92) $profile.src = "src/profile/" + profiles[3];
+  else $profile.src = "src/profile/" + profiles[4];
+
+  const replaceButtons = requestButtons => {
+    const prevNumber = number.slice();
+    const randomNumber = [];
+    const usedNumber = [];
+    const resultNumber = [];
+    const emptyElement = document.createElement("div");
+
+    const $numbers = document.querySelectorAll("#pad .btn");
+
+    for(let i = 0; i < $numbers.length; i++) {
+      const $number = $numbers[i];
+
+      if($number.classList.contains("use")) usedNumber.push(number[i]);
+      else randomNumber.push(number[i]);
+
+      emptyElement.append($number);
+    }
+    
+    randomNumber.sort(e => {
+      return Math.random() - 0.5;
+    });
+
+    let usedCount = 0;
+    for(let i = 0; i < number.length; i++) {
+      if(usedNumber.includes(prevNumber[i])) {
+        resultNumber.push(prevNumber[i]);
+
+        usedCount++;
+      }else { 
+        resultNumber.push(randomNumber[i - usedCount]);
+      }
+    }
+
+    for(let i = 0; i < number.length; i++) {
+      $pad.append(requestButtons[resultNumber[i]]);
+    }
+  }
   
   const gameStart = e => {
     const btns = $pad.querySelectorAll(".btn");
+    const requestButtons = {};
+    let mixNumber = true;
+    let mixingNumber = "";
     btns.forEach(el => el.remove());
     $pass.value = "";
     sheet = "";
-    let mixNumber = true;
     
     while(mixNumber) {
       number.sort(e => {
-        return Math.random() - 0.5
+        return Math.random() - 0.5;
       });
 
       answer = number.join("");
       $ex.innerText = answer;
       
       number.sort(e => {
-        return Math.random() - 0.5
+        return Math.random() - 0.5;
       });
 
       let mixedNumber = number.join("");
@@ -44,8 +93,7 @@ const init = e => {
 
         if(mixedNumber.includes(subNumber)) {
           includedSequence = true;
-
-          console.log("reset", mixedNumber);
+          
           break;
         }
       }
@@ -54,17 +102,24 @@ const init = e => {
       else if(includedSequence) ;
       else mixNumber = false;
     }
+
+    if(randomProfile >= 92) {
+      mixingNumber = answer[Math.floor(Math.random() * 4 + 3)] * 1;
+    }
     
     for(let i = 0; i < 10; i++) {
       const btn = document.createElement("button");
       btn.classList.add("btn");
       btn.innerText = number[i];
+      if(mixingNumber === number[i]) btn.classList.add("mix");
   
       btn.addEventListener("click", e => {
         if(btn.classList.contains("use")) return e.preventDefault();
         sheet += `${number[i]}`;
         $pass.value = sheet;
         btn.classList.add("use");
+
+        if(mixingNumber === number[i]) replaceButtons(requestButtons);
   
         if(sheet.length === 10) {
           if(sheet === answer) {
@@ -78,6 +133,7 @@ const init = e => {
       })
   
       $pad.append(btn);
+      requestButtons[number[i]] = btn;
     }
   }
   
